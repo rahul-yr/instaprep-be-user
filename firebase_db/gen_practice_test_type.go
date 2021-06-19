@@ -76,7 +76,7 @@ func (v *PracticeTestType) CreateWithId(hash_id string) (string, error) {
 		return "", err
 	}
 	if ws == nil {
-		return "", errors.New(ERROR_DOMAIN_CREATION)
+		return "", errors.New(ERROR_PRACTICE_TEST_TYPE_CREATION)
 	}
 	return hash_id, nil
 }
@@ -97,7 +97,7 @@ func (v *PracticeTestType) Read(hash_id string) (*PracticeTestType, error) {
 }
 
 // returns list of practiceTestType details if exists
-func (v *PracticeTestType) ReadMultipleIds(hash_id ...string) ([]*PracticeTestType, error) {
+func (v *PracticeTestType) ReadMultipleIds(hash_id []string) ([]*PracticeTestType, error) {
 	itemsList := make([]*PracticeTestType,0)
 	for _, i := range hash_id {
 		item, err := v.Read(i)

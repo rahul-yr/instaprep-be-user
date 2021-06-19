@@ -76,7 +76,7 @@ func (v *LearningPath) CreateWithId(hash_id string) (string, error) {
 		return "", err
 	}
 	if ws == nil {
-		return "", errors.New(ERROR_DOMAIN_CREATION)
+		return "", errors.New(ERROR_LEARNING_PATH_CREATION)
 	}
 	return hash_id, nil
 }
@@ -97,7 +97,7 @@ func (v *LearningPath) Read(hash_id string) (*LearningPath, error) {
 }
 
 // returns list of learningPath details if exists
-func (v *LearningPath) ReadMultipleIds(hash_id ...string) ([]*LearningPath, error) {
+func (v *LearningPath) ReadMultipleIds(hash_id []string) ([]*LearningPath, error) {
 	itemsList := make([]*LearningPath,0)
 	for _, i := range hash_id {
 		item, err := v.Read(i)

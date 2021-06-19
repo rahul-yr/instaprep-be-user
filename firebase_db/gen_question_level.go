@@ -76,7 +76,7 @@ func (v *QuestionLevel) CreateWithId(hash_id string) (string, error) {
 		return "", err
 	}
 	if ws == nil {
-		return "", errors.New(ERROR_DOMAIN_CREATION)
+		return "", errors.New(ERROR_QUESTION_LEVEL_CREATION)
 	}
 	return hash_id, nil
 }
@@ -97,7 +97,7 @@ func (v *QuestionLevel) Read(hash_id string) (*QuestionLevel, error) {
 }
 
 // returns list of questionLevel details if exists
-func (v *QuestionLevel) ReadMultipleIds(hash_id ...string) ([]*QuestionLevel, error) {
+func (v *QuestionLevel) ReadMultipleIds(hash_id []string) ([]*QuestionLevel, error) {
 	itemsList := make([]*QuestionLevel,0)
 	for _, i := range hash_id {
 		item, err := v.Read(i)

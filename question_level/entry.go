@@ -11,13 +11,13 @@ import (
 )
 
 const (
-	all_question_level_key = "user:all_question_level"
+	all_question_levels_key = "user:all_question_level"
 	// in hours
 	redis_expiry_time = 48
 )
 
 func Getkey() string {
-	return all_question_level_key
+	return all_question_levels_key
 }
 
 // returns all domains

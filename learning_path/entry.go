@@ -11,33 +11,29 @@ import (
 )
 
 const (
-	all_learnings_key = "user:all_learning_path:"
+	all_learning_paths_key = "user:all_learning_path"
 	// in hours
 	redis_expiry_time = 48
 )
 
-func Getkey(domain string) string {
-	return all_learnings_key + domain
+func Getkey() string {
+	return all_learning_paths_key
 }
 
 func GetAllLearningPathByDomain(c *fiber.Ctx) error {
 	// extract request params
-	requestParams := new(RequestParams)
-	if err := c.BodyParser(requestParams); err != nil {
-		return c.Status(404).JSON(&helpers.ErrorResponse{Error: "Please verify inputs", Status: false})
-	}
 	// variables
 	red := &redisdb.RedisOneOps{}
 	fire := &firebasedb.LearningPath{}
 
 	// get cache
 	var cachedList []*Response
-	if err := red.GetJSON(Getkey(requestParams.DomainId), &cachedList); err == nil {
+	if err := red.GetJSON(Getkey(), &cachedList); err == nil {
 		return c.Status(200).JSON(cachedList)
 	}
 
 	// fire
-	all_docs, err := fire.ReadAllByCondition([]string{"published", "id"}, []string{"==", "=="}, []interface{}{true, requestParams.DomainId})
+	all_docs, err := fire.ReadAllByCondition([]string{"published"}, []string{"=="}, []interface{}{true})
 	if err != nil {
 		log.Printf("error : %+v \n", err)
 		return c.Status(404).JSON(&helpers.ErrorResponse{Error: "Something went wrong", Status: false})
@@ -46,7 +42,7 @@ func GetAllLearningPathByDomain(c *fiber.Ctx) error {
 		return c.Status(404).JSON(&helpers.ErrorResponse{Error: "Something went wrong", Status: false})
 	}
 	// store cache
-	if err = red.StoreJSON(Getkey(requestParams.DomainId), all_docs, redis_expiry_time*time.Hour); err != nil {
+	if err = red.StoreJSON(Getkey(), all_docs, redis_expiry_time*time.Hour); err != nil {
 		log.Printf("error : %+v \n", err)
 	}
 

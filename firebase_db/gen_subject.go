@@ -76,7 +76,7 @@ func (v *Subject) CreateWithId(hash_id string) (string, error) {
 		return "", err
 	}
 	if ws == nil {
-		return "", errors.New(ERROR_DOMAIN_CREATION)
+		return "", errors.New(ERROR_SUBJECT_CREATION)
 	}
 	return hash_id, nil
 }
@@ -97,7 +97,7 @@ func (v *Subject) Read(hash_id string) (*Subject, error) {
 }
 
 // returns list of subject details if exists
-func (v *Subject) ReadMultipleIds(hash_id ...string) ([]*Subject, error) {
+func (v *Subject) ReadMultipleIds(hash_id []string) ([]*Subject, error) {
 	itemsList := make([]*Subject,0)
 	for _, i := range hash_id {
 		item, err := v.Read(i)

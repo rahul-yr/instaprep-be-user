@@ -11,13 +11,13 @@ import (
 )
 
 const (
-	all_practice_test_type_key = "user:all_practice_test_type"
+	all_practice_test_types_key = "user:all_practice_test_type"
 	// in hours
 	redis_expiry_time = 48
 )
 
 func Getkey() string {
-	return all_practice_test_type_key
+	return all_practice_test_types_key
 }
 
 // returns all domains

@@ -11,11 +11,12 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/joho/godotenv"
 
-	domain "github.com/rahul-yr/instaprep-be-user/domain"
 	learningpath "github.com/rahul-yr/instaprep-be-user/learning_path"
 	practicetesttype "github.com/rahul-yr/instaprep-be-user/practice_test_type"
+	question "github.com/rahul-yr/instaprep-be-user/question"
 	questionlevel "github.com/rahul-yr/instaprep-be-user/question_level"
 	subject "github.com/rahul-yr/instaprep-be-user/subject"
+	topic "github.com/rahul-yr/instaprep-be-user/topic"
 )
 
 func init() {
@@ -28,37 +29,48 @@ func main() {
 	app := fiber.New(fiber.Config{Prefork: true})
 	setupSecurityConfigs(app)
 	// Init routes
+	setupAuthRoutes(app)
 	setupRoutes(app)
 	// listen
 	app.Listen(fmt.Sprintf(":%v", os.Getenv("PORT")))
 
 }
 
+func setupAuthRoutes(app *fiber.App) {
+
+}
+
 func setupRoutes(app *fiber.App) {
-	// Get all Available domains
-	// 
-	// no input params required
-	app.Post("/all-domains", domain.GetAllDomains)
-	
-	//	Get all Available Test types allowed 
-	// 
+	//	Get all Available Test types allowed
+	//
 	// no input params required
 	app.Post("/all-practice-test-type", practicetesttype.GetAllPracticeTestTypes)
 
 	// Get all Available Question levels
-	// 
+	//
 	// no input params required
 	app.Post("/all-question-level", questionlevel.GetAllPracticeTestTypes)
 
-	// Get all LearningPath based on domain_id
-	// 
-	// @inputs	>>  domain_id 
+	// Get all LearningPath
+	//
+	// no input params required
 	app.Post("/all-learning-path", learningpath.GetAllLearningPathByDomain)
 
 	// Get all Subjects based on learning_path_id
-	// 
-	// @inputs	>>	learning_path_id	
+	//
+	// @inputs	>>	learning_path_id
 	app.Post("/all-subject", subject.GetSubjectsByLearningPath)
+
+	// Get all Topics based on subject_id
+	//
+	// @inputs	>>	subject_id
+	app.Post("/all-topic", topic.GetTopicsBySubject)
+
+	// Get All Questions based on topic_id,  page_num
+	//
+	// @inputs	>>	topic_id,page_num
+	//
+	app.Post("/all-questions", question.GetQuestionsByTopic)
 }
 
 func setupSecurityConfigs(app *fiber.App) {

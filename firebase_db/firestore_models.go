@@ -4,7 +4,6 @@ import "time"
 
 const (
 	// defaults inital data
-	DOMAINS_COLLECTION             = "domains"
 	QUESTION_LEVELS_COLLECTION     = "question_levels"
 	PRACTICE_TEST_TYPES_COLLECTION = "practice_test_types"
 	//
@@ -29,21 +28,14 @@ type User struct {
 	UpdatedAt time.Time `firestore:"updated_at"`
 }
 
-// like IT, Government
-type Domain struct {
-	ID        string    `json:"id" firestore:"id"`
-	Name      string    `json:"name" firestore:"name"`
-	CreatedAt time.Time `firestore:"created_at,serverTimestamp"`
-	UpdatedAt time.Time `firestore:"updated_at"`
-}
-
 type Subject struct {
-	ID          string    `json:"id" firestore:"id"`
-	Name        string    `json:"name" firestore:"name"`
-	Description string    `json:"description" firestore:"description"`
-	TopicIds    []string  `json:"topic_ids" firestore:"topic_ids"`
-	CreatedAt   time.Time `firestore:"created_at,serverTimestamp"`
-	UpdatedAt   time.Time `firestore:"updated_at"`
+	ID               string    `json:"id" firestore:"id"`
+	Name             string    `json:"name" firestore:"name"`
+	Description      string    `json:"description" firestore:"description"`
+	TopicIds         []string  `json:"topic_ids" firestore:"topic_ids"`
+	QuestionLevelIds []string  `json:"question_level_ids" firestore:"question_level_ids"`
+	CreatedAt        time.Time `firestore:"created_at,serverTimestamp"`
+	UpdatedAt        time.Time `firestore:"updated_at"`
 }
 
 // public_content, premium_content, additional_content strings are html file urls
@@ -95,15 +87,13 @@ type Question struct {
 }
 
 type LearningPath struct {
-	ID               string    `json:"id" firestore:"id"`
-	Name             string    `json:"name" firestore:"name"`
-	Description      string    `json:"description" firestore:"description"`
-	SubjectIds       []string  `json:"subject_ids" firestore:"subject_ids"`
-	DomainId         string    `json:"domain_id" firestore:"domain_id"`
-	QuestionLevelIds []string  `json:"question_level_ids" firestore:"question_level_ids"`
-	Published        bool      `json:"published" firestore:"published"`
-	CreatedAt        time.Time `firestore:"created_at,serverTimestamp"`
-	UpdatedAt        time.Time `firestore:"updated_at"`
+	ID          string    `json:"id" firestore:"id"`
+	Name        string    `json:"name" firestore:"name"`
+	Description string    `json:"description" firestore:"description"`
+	SubjectIds  []string  `json:"subject_ids" firestore:"subject_ids"`
+	Published   bool      `json:"published" firestore:"published"`
+	CreatedAt   time.Time `firestore:"created_at,serverTimestamp"`
+	UpdatedAt   time.Time `firestore:"updated_at"`
 }
 
 // Available test types are

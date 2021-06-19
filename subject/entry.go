@@ -51,7 +51,7 @@ func GetSubjectsByLearningPath(c *fiber.Ctx) error {
 	// here obj holds the list of subject ids
 	subject_ids := lp_obj.SubjectIds
 
-	all_docs, err := fire.ReadMultipleIds(subject_ids...)
+	all_docs, err := fire.ReadMultipleIds(subject_ids)
 	if err != nil {
 		log.Printf("error : %+v \n", err)
 		return c.Status(404).JSON(&helpers.ErrorResponse{Error: "Something went wrong", Status: false})
