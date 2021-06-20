@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
@@ -17,6 +18,12 @@ import (
 	questionlevel "github.com/rahul-yr/instaprep-be-user/question_level"
 	subject "github.com/rahul-yr/instaprep-be-user/subject"
 	topic "github.com/rahul-yr/instaprep-be-user/topic"
+
+	login "github.com/rahul-yr/instaprep-be-user/auth/login"
+	logout "github.com/rahul-yr/instaprep-be-user/auth/logout"
+	refreshtoken "github.com/rahul-yr/instaprep-be-user/auth/refresh_token"
+	verifyotp "github.com/rahul-yr/instaprep-be-user/auth/verify_otp"
+	verifytoken "github.com/rahul-yr/instaprep-be-user/auth/verify_token"
 )
 
 func init() {
@@ -29,18 +36,62 @@ func main() {
 	app := fiber.New(fiber.Config{Prefork: true})
 	setupSecurityConfigs(app)
 	// Init routes
-	setupAuthRoutes(app)
-	setupRoutes(app)
+
+	api_auth := app.Group("/auth")
+	api_user := app.Group("/user")
+
+	// authentication middleware
+	api_user.Use(func(c *fiber.Ctx) error {
+		authorization_header := string(c.Request().Header.Peek("Authorization"))
+		actual_token := strings.Split(authorization_header, " ")
+		if len(actual_token) == 2 {
+			// verify authentication
+			status := verifytoken.VerifyTokenMiddleware(actual_token[1])
+			if status {
+				return c.Next()
+			}
+		}
+		return c.Status(403).JSON(&fiber.Map{"status": "false"})
+	})
+
+	// routes
+	setupAuthRoutes(api_auth)
+	setupRoutes(api_user)
 	// listen
 	app.Listen(fmt.Sprintf(":%v", os.Getenv("PORT")))
 
 }
 
-func setupAuthRoutes(app *fiber.App) {
+func setupAuthRoutes(app fiber.Router) {
+	// This method send otp based on given email id
+	//
+	// @inputs	>>	email
+	app.Post("/login", login.SendOTP)
+
+	// This method returns jwt token based on successfull otp validation
+	//
+	// @inputs	>>	email, otp
+	app.Post("/verify-otp", verifyotp.VerifyOTP)
+
+	// This method returns true on successfull validation of token
+	//
+	// @inputs	>>	token
+	app.Post("/verify-token", verifytoken.VerifyToken)
+
+	// This method returns new token if the provided token is valid and about to expiry
+	//
+	// @inputs	>>	token
+	app.Post("/refresh-token", refreshtoken.RefreshToken)
+
+	// This method logouts the existing user from redis db
+	// for now we won't call this method
+	//
+	// @inputs	>>	token
+	app.Post("/logout", logout.Logout)
 
 }
 
-func setupRoutes(app *fiber.App) {
+func setupRoutes(app fiber.Router) {
 	//	Get all Available Test types allowed
 	//
 	// no input params required

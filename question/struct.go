@@ -24,7 +24,7 @@ type RequestParams struct {
 }
 
 func (r *RequestParams) VerifyPageNum() {
-	if r.PageNum == 0 {
+	if r.PageNum <= 0 {
 		r.PageNum = 1
 	}
 }

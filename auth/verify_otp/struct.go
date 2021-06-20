@@ -1,8 +1,9 @@
-package login
+package verifyotp
 
 import (
 	"errors"
 	"net/mail"
+	"strconv"
 	"strings"
 )
 
@@ -14,26 +15,28 @@ var (
 )
 
 type Response struct {
+	Token   string `json:"token"`
 	Message string `json:"message"`
 	Status  bool   `json:"status"`
 }
 
 type RequestParams struct {
 	Email string `json:"email"  xml:"email" form:"email"`
-}
-
-type PubsubEmailMessage struct {
-	Email   string                 `json:"email"`
-	Type    string                 `json:"type"`
-	Payload map[string]interface{} `json:"payload"`
+	OTP   int    `json:"otp"  xml:"otp" form:"otp"`
 }
 
 func (rp *RequestParams) Validate() error {
+	// email validation
 	email_id, err := normalizeEmail(rp.Email)
 	if err != nil {
 		return err
 	}
 	rp.Email = email_id
+	// otp validation
+	err = checkOTP(rp.OTP)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -49,4 +52,11 @@ func normalizeEmail(email string) (string, error) {
 		return email, nil
 	}
 	return "", errors.New("email : Your Email provider is not yet supported")
+}
+
+func checkOTP(otp int) error {
+	if len(strconv.Itoa(otp)) != 6 {
+		return errors.New("otp : OTP is not valid")
+	}
+	return nil
 }
