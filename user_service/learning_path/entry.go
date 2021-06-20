@@ -29,7 +29,7 @@ func GetAllLearningPathByDomain(c *fiber.Ctx) error {
 	// get cache
 	var cachedList []*Response
 	if err := red.GetJSON(Getkey(), &cachedList); err == nil {
-		return c.Status(200).JSON(cachedList)
+		return c.Status(200).JSON(&fiber.Map{"results": cachedList, "status": true})
 	}
 
 	// fire
@@ -48,5 +48,5 @@ func GetAllLearningPathByDomain(c *fiber.Ctx) error {
 
 	var temp *Response
 	res := temp.GetResponseObjectList(all_docs)
-	return c.Status(200).JSON(res)
+	return c.Status(200).JSON(&fiber.Map{"results": res, "status": true})
 }

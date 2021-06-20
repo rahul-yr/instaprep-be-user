@@ -12,12 +12,12 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/joho/godotenv"
 
-	learningpath "github.com/rahul-yr/instaprep-be-user/learning_path"
-	practicetesttype "github.com/rahul-yr/instaprep-be-user/practice_test_type"
-	question "github.com/rahul-yr/instaprep-be-user/question"
-	questionlevel "github.com/rahul-yr/instaprep-be-user/question_level"
-	subject "github.com/rahul-yr/instaprep-be-user/subject"
-	topic "github.com/rahul-yr/instaprep-be-user/topic"
+	learningpath "github.com/rahul-yr/instaprep-be-user/user_service/learning_path"
+	practicetesttype "github.com/rahul-yr/instaprep-be-user/user_service/practice_test_type"
+	question "github.com/rahul-yr/instaprep-be-user/user_service/question"
+	questionlevel "github.com/rahul-yr/instaprep-be-user/user_service/question_level"
+	subject "github.com/rahul-yr/instaprep-be-user/user_service/subject"
+	topic "github.com/rahul-yr/instaprep-be-user/user_service/topic"
 
 	login "github.com/rahul-yr/instaprep-be-user/auth/login"
 	logout "github.com/rahul-yr/instaprep-be-user/auth/logout"
@@ -121,7 +121,7 @@ func setupRoutes(app fiber.Router) {
 	//
 	// @inputs	>>	topic_id,page_num
 	//
-	app.Post("/all-questions", question.GetQuestionsByTopic)
+	app.Post("/all-question", question.GetQuestionsByTopic)
 }
 
 func setupSecurityConfigs(app *fiber.App) {

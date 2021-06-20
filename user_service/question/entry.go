@@ -46,7 +46,7 @@ func GetQuestionsByTopic(c *fiber.Ctx) error {
 	// cache response if available
 	var pageCountRes *PageCountResponse
 	if err := red.GetJSON(GetkeyWithPageId(requestParams.TopicId, requestParams.PageNum), pageCountRes); err == nil {
-		return c.Status(200).BodyParser(pageCountRes)
+		return c.Status(200).JSON(&fiber.Map{"results": pageCountRes, "status": true})
 	}
 
 	//	if error get total page count from redis
@@ -102,6 +102,6 @@ func GetQuestionsByTopic(c *fiber.Ctx) error {
 		}
 	}
 
-	return c.Status(200).JSON(pcr)
+	return c.Status(200).JSON(&fiber.Map{"results": pcr, "status": true})
 
 }

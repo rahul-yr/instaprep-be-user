@@ -1,4 +1,4 @@
-package practicetesttype
+package questionlevel
 
 import (
 	"log"
@@ -11,13 +11,13 @@ import (
 )
 
 const (
-	all_practice_test_types_key = "user:all_practice_test_type"
+	all_question_levels_key = "user:all_question_level"
 	// in hours
 	redis_expiry_time = 48
 )
 
 func Getkey() string {
-	return all_practice_test_types_key
+	return all_question_levels_key
 }
 
 // returns all domains
@@ -26,12 +26,12 @@ func Getkey() string {
 func GetAllPracticeTestTypes(c *fiber.Ctx) error {
 	// variables
 	red := &redisdb.RedisOneOps{}
-	fire := &firebasedb.PracticeTestType{}
+	fire := &firebasedb.QuestionLevel{}
 
 	// redis check
 	var cachedList []*Response
 	if err := red.GetJSON(Getkey(), &cachedList); err == nil {
-		return c.Status(200).JSON(cachedList)
+		return c.Status(200).JSON(&fiber.Map{"results": cachedList, "status": true})
 	}
 
 	// firestore check
@@ -48,6 +48,6 @@ func GetAllPracticeTestTypes(c *fiber.Ctx) error {
 
 	var temp *Response
 	res := temp.GetResponseObjectList(all_docs)
-	return c.Status(200).JSON(res)
+	return c.Status(200).JSON(&fiber.Map{"results": res, "status": true})
 
 }
