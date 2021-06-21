@@ -13,7 +13,6 @@ import (
 	"github.com/joho/godotenv"
 
 	learningpath "github.com/rahul-yr/instaprep-be-user/user_service/learning_path"
-	practicetesttype "github.com/rahul-yr/instaprep-be-user/user_service/practice_test_type"
 	question "github.com/rahul-yr/instaprep-be-user/user_service/question"
 	questionlevel "github.com/rahul-yr/instaprep-be-user/user_service/question_level"
 	subject "github.com/rahul-yr/instaprep-be-user/user_service/subject"
@@ -92,36 +91,31 @@ func setupAuthRoutes(app fiber.Router) {
 }
 
 func setupRoutes(app fiber.Router) {
-	//	Get all Available Test types allowed
-	//
-	// no input params required
-	app.Post("/all-practice-test-type", practicetesttype.GetAllPracticeTestTypes)
-
 	// Get all Available Question levels
 	//
 	// no input params required
-	app.Post("/all-question-level", questionlevel.GetAllPracticeTestTypes)
+	app.Post("/question-level/all", questionlevel.GetAllPracticeTestTypes)
 
 	// Get all LearningPath
 	//
 	// no input params required
-	app.Post("/all-learning-path", learningpath.GetAllLearningPathByDomain)
+	app.Post("/learning-path/all", learningpath.GetAllLearningPathByDomain)
 
 	// Get all Subjects based on learning_path_id
 	//
 	// @inputs	>>	learning_path_id
-	app.Post("/all-subject", subject.GetSubjectsByLearningPath)
+	app.Post("/subject/all", subject.GetSubjectsByLearningPath)
 
 	// Get all Topics based on subject_id
 	//
 	// @inputs	>>	subject_id
-	app.Post("/all-topic", topic.GetTopicsBySubject)
+	app.Post("/topic/all", topic.GetTopicsBySubject)
 
 	// Get All Questions based on topic_id,  page_num
 	//
 	// @inputs	>>	topic_id,page_num
 	//
-	app.Post("/all-question", question.GetQuestionsByTopic)
+	app.Post("/question/all", question.GetQuestionsByTopic)
 }
 
 func setupSecurityConfigs(app *fiber.App) {

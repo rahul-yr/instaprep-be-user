@@ -4,19 +4,14 @@ import "time"
 
 const (
 	// defaults inital data
-	QUESTION_LEVELS_COLLECTION     = "question_levels"
-	PRACTICE_TEST_TYPES_COLLECTION = "practice_test_types"
+	QUESTION_LEVELS_COLLECTION = "question_levels"
 	//
-	USERS_COLLECTION                      = "users"
-	USER_PURCHASED_PRODUCTS_COLLECTION    = "user_purchased_products"
-	LEARNING_PATHS_COLLECTION             = "learning_paths"
-	SUBJECTS_COLLECTION                   = "subjects"
-	SUBJECTS_QUESTIONS_MAPPING_COLLECTION = "subject_questions_mappings"
-	TOPICS_COLLECTION                     = "topics"
-	THEORIES_COLLECTION                   = "theories"
-	QUESTIONS_COLLECTION                  = "questions"
-	PRACTICE_TESTS_COLLECTION             = "practice_tests"
-	DELETION_LOGGERS_COLLECTION           = "deletion_loggers"
+	USERS_COLLECTION            = "users"
+	LEARNING_PATHS_COLLECTION   = "learning_paths"
+	SUBJECTS_COLLECTION         = "subjects"
+	TOPICS_COLLECTION           = "topics"
+	QUESTIONS_COLLECTION        = "questions"
+	DELETION_LOGGERS_COLLECTION = "deletion_loggers"
 )
 
 type User struct {
@@ -37,18 +32,6 @@ type Subject struct {
 	QuestionLevelIds []string  `json:"question_level_ids" firestore:"question_level_ids"`
 	CreatedAt        time.Time `firestore:"created_at,serverTimestamp"`
 	UpdatedAt        time.Time `firestore:"updated_at"`
-}
-
-// public_content, premium_content, additional_content strings are html file urls
-type Theory struct {
-	ID         string    `json:"id" firestore:"id"`
-	Public     []string  `json:"public" firestore:"public"`
-	Premium    []string  `json:"premium" firestore:"premium"`
-	Additional []string  `json:"additional" firestore:"additional"`
-	SubjectId  string    `json:"subject_id" firestore:"subject_id"`
-	TopicId    string    `json:"topic_id" firestore:"topic_id"`
-	CreatedAt  time.Time `firestore:"created_at,serverTimestamp"`
-	UpdatedAt  time.Time `firestore:"updated_at"`
 }
 
 type Topic struct {
@@ -95,45 +78,6 @@ type LearningPath struct {
 	Published   bool      `json:"published" firestore:"published"`
 	CreatedAt   time.Time `firestore:"created_at,serverTimestamp"`
 	UpdatedAt   time.Time `firestore:"updated_at"`
-}
-
-// Available test types are
-// Learning Path or Subject
-type PracticeTestType struct {
-	ID        string    `json:"id" firestore:"id"`
-	Name      string    `json:"name" firestore:"name"`
-	CreatedAt time.Time `firestore:"created_at,serverTimestamp"`
-	UpdatedAt time.Time `firestore:"updated_at"`
-}
-
-// key of question ids is going to be question level id and value is array of question ids
-type SubjectQuestionMappings struct {
-	ID          string              `json:"id" firestore:"id"`
-	QuestionIds map[string][]string `json:"question_ids" firestore:"question_ids"`
-	CreatedAt   time.Time           `firestore:"created_at,serverTimestamp"`
-	UpdatedAt   time.Time           `firestore:"updated_at"`
-}
-
-// Test_status = ('started' , 'completed' )
-type PracticeTest struct {
-	ID            string            `json:"id" firestore:"id"`
-	Email         string            `json:"email" firestore:"email"`
-	TestType      string            `json:"test_type" firestore:"test_type"`
-	TestStatus    string            `json:"test_status" firestore:"test_status"`
-	QuestionIdMap map[string]string `json:"questions_ids_map" firestore:"questions_ids_map"`
-	TotalMarks    int               `json:"total_marks" firestore:"total_marks"`
-	ObtainedMarks int               `json:"obtained_marks" firestore:"obtained_marks"`
-	CreatedAt     time.Time         `firestore:"created_at,serverTimestamp"`
-	UpdatedAt     time.Time         `firestore:"updated_at"`
-}
-
-// User Purchased products
-type UserPurchasedProduct struct {
-	ID                string    `json:"id" firestore:"id"`
-	Email             string    `json:"email" firestore:"email"`
-	PurchasedDomainId string    `json:"purchased_domain_id" firestore:"purchased_domain_id"`
-	CreatedAt         time.Time `firestore:"created_at,serverTimestamp"`
-	UpdatedAt         time.Time `firestore:"updated_at"`
 }
 
 // Deletionlogger

@@ -7,7 +7,8 @@
     success response - 200
     error case 404, 403 
 
-    @POST /all-practice-test-type
+
+    @POST /question-level/all
     @inputs
     @output 
         json
@@ -17,17 +18,7 @@
             results :[{id, name}, {id, name},{id, name}], status
 
 
-    @POST /all-question-level
-    @inputs
-    @output 
-        json
-        failure : 404
-                 error , status
-        success : 200
-            results :[{id, name}, {id, name},{id, name}], status
-
-
-    @POST /all-learning-path
+    @POST /learning-path/all
     @inputs
     @output 
         json
@@ -37,7 +28,7 @@
             results :[{id, name, description}, {id, name, description},{id, name, description}], status
 
 
-    @POST /all-subject
+    @POST /subject/all
     @inputs     >>  learning_path_id
     @output 
         json
@@ -47,7 +38,7 @@
             results :[{id, name, description, question_level_ids}, {id, name, description, question_level_ids},{id, name, description, question_level_ids}], status
 
 
-    @POST /all-topic
+    @POST /topic/all
     @inputs     >>  subject_id
     @output 
         json
@@ -57,7 +48,7 @@
             results :[{id, name, description}, {id, name, description},{id, name, description}], status
 
 
-    @POST /all-question
+    @POST /question/all
     @inputs     >>  topic_id, page_num
     @output 
         json
