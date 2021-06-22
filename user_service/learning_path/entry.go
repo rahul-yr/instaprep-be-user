@@ -39,6 +39,7 @@ func GetAllLearningPathByDomain(c *fiber.Ctx) error {
 		return c.Status(404).JSON(&helpers.ErrorResponse{Error: "Something went wrong", Status: false})
 	}
 	if len(all_docs) == 0 {
+		log.Println("No learning paths found")
 		return c.Status(404).JSON(&helpers.ErrorResponse{Error: "Something went wrong", Status: false})
 	}
 	// store cache

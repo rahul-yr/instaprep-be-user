@@ -16,7 +16,7 @@ const (
 	all_questions_key = "user:all_question:"
 	// in hours
 	redis_expiry_time    = 48
-	questions_page_count = 30
+	questions_page_count = 15
 )
 
 func GetkeyWithPageId(topic_id string, page_num int) string {
@@ -44,8 +44,8 @@ func GetQuestionsByTopic(c *fiber.Ctx) error {
 	fire := &firebasedb.Question{}
 
 	// cache response if available
-	var pageCountRes *PageCountResponse
-	if err := red.GetJSON(GetkeyWithPageId(requestParams.TopicId, requestParams.PageNum), pageCountRes); err == nil {
+	var pageCountRes PageCountResponse
+	if err := red.GetJSON(GetkeyWithPageId(requestParams.TopicId, requestParams.PageNum), &pageCountRes); err == nil {
 		return c.Status(200).JSON(&fiber.Map{"results": pageCountRes, "status": true})
 	}
 
@@ -85,11 +85,17 @@ func GetQuestionsByTopic(c *fiber.Ctx) error {
 	var temp *Response
 	var arraySlice []*firebasedb.Question
 
+	// store total page count again
+	err = red.StoreKV(GetTotalPageCountKey(requestParams.TopicId), strconv.Itoa(numberOfPages), redis_expiry_time*time.Hour)
+	if err != nil {
+		return c.Status(404).JSON(&helpers.ErrorResponse{Error: "Something went wrong", Status: false})
+	}
+
 	for i := 0; i < numberOfPages; i++ {
-		if ((i + 1) * 30) > numberOfQuestions {
-			arraySlice = all_docs[i*30:]
+		if ((i + 1) * questions_page_count) > numberOfQuestions {
+			arraySlice = all_docs[i*questions_page_count:]
 		} else {
-			arraySlice = all_docs[i*30 : (i+1)*30]
+			arraySlice = all_docs[i*questions_page_count : (i+1)*questions_page_count]
 		}
 		pageResObj := temp.GetPageCountResonseObject(arraySlice, numberOfPages)
 		if requestParams.PageNum == i+1 {
