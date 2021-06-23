@@ -3,7 +3,6 @@ package verifyotp
 import (
 	"errors"
 	"net/mail"
-	"strconv"
 	"strings"
 )
 
@@ -22,7 +21,7 @@ type Response struct {
 
 type RequestParams struct {
 	Email string `json:"email"  xml:"email" form:"email"`
-	OTP   int    `json:"otp"  xml:"otp" form:"otp"`
+	OTP   string `json:"otp"  xml:"otp" form:"otp"`
 }
 
 func (rp *RequestParams) Validate() error {
@@ -54,8 +53,8 @@ func normalizeEmail(email string) (string, error) {
 	return "", errors.New("email : Your Email provider is not yet supported")
 }
 
-func checkOTP(otp int) error {
-	if len(strconv.Itoa(otp)) != 6 {
+func checkOTP(otp string) error {
+	if len(otp) != 6 {
 		return errors.New("otp : OTP is not valid")
 	}
 	return nil

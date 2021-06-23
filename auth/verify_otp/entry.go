@@ -3,7 +3,6 @@ package verifyotp
 import (
 	"errors"
 	"log"
-	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -41,14 +40,9 @@ func VerifyOTP(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(404).JSON(&Response{Message: "Please verify input details", Status: false})
 	}
-	// verify provided otp with cache otp
-	cache_int_otp, err := strconv.Atoi(cache_otp)
-	if err != nil {
-		return c.Status(404).JSON(&Response{Message: "Something went wrong", Status: false})
-	}
 
 	// if otp is matching
-	if requestParams.OTP == cache_int_otp {
+	if requestParams.OTP == cache_otp {
 		// get user id from firebase
 		uid, err := firebaseAccount(requestParams.Email)
 		if err != nil {

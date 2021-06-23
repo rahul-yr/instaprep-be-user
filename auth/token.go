@@ -29,7 +29,7 @@ type TokenMapper struct {
 
 // This method generates and returns the auth token
 func (token *TokenGeneratorService) GenerateAuthToken(email string, userId string) (string, error) {
-	jwt_secret_token := os.Getenv("JWT_TOKEN_GENERATOR_SECRET")
+	jwt_secret_token := []byte(os.Getenv("JWT_TOKEN_GENERATOR_SECRET"))
 	if len(jwt_secret_token) < 7 {
 		return "", errors.New("token_generator_error : JWT Token is not valid")
 	}
@@ -57,7 +57,7 @@ func (token *TokenGeneratorService) GenerateAuthToken(email string, userId strin
 // This method verify the authenticity of auth token and
 //  returns the Claims object
 func (token *TokenGeneratorService) VerifyAuthToken(given_token string) (*TokenMapper, error) {
-	jwt_secret_token := os.Getenv("JWT_TOKEN_GENERATOR_SECRET")
+	jwt_secret_token := []byte(os.Getenv("JWT_TOKEN_GENERATOR_SECRET"))
 	if len(jwt_secret_token) < 7 {
 		return nil, errors.New("token_verify_error : JWT Token is not valid")
 	}
@@ -75,7 +75,7 @@ func (token *TokenGeneratorService) VerifyAuthToken(given_token string) (*TokenM
 
 // This method generates and returns the new auth token
 func (token *TokenGeneratorService) RefreshAuthToken(given_token string) (*TokenMapper, error) {
-	jwt_secret_token := os.Getenv("JWT_TOKEN_GENERATOR_SECRET")
+	jwt_secret_token := []byte(os.Getenv("JWT_TOKEN_GENERATOR_SECRET"))
 	if len(jwt_secret_token) < 7 {
 		return nil, errors.New("token_refresh_error : JWT Token is not valid")
 	}
