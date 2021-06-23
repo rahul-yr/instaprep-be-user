@@ -26,8 +26,10 @@ import (
 )
 
 func init() {
-	godotenv.Load(".env")
-
+	var PROD = true
+	if !PROD {
+		godotenv.Load(".dev.env")
+	}
 }
 
 func main() {
