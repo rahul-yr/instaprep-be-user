@@ -73,6 +73,7 @@ type Question struct {
 type LearningPath struct {
 	ID          string    `json:"id" firestore:"id"`
 	Name        string    `json:"name" firestore:"name"`
+	Icon        string    `json:"icon" firestore:"icon"`
 	Description string    `json:"description" firestore:"description"`
 	SubjectIds  []string  `json:"subject_ids" firestore:"subject_ids"`
 	Published   bool      `json:"published" firestore:"published"`
