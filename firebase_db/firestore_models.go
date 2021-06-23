@@ -56,18 +56,19 @@ type QuestionLevel struct {
 
 // question, a,b,c,d  strings are markdown
 type Question struct {
-	ID        string    `json:"id" firestore:"id"`
-	Question  string    `json:"question" firestore:"question"`
-	OptionA   string    `json:"a" firestore:"a"`
-	OptionB   string    `json:"b" firestore:"b"`
-	OptionC   string    `json:"c" firestore:"c"`
-	OptionD   string    `json:"d" firestore:"d"`
-	Answer    string    `json:"answer" firestore:"answer"`
-	SubjectId string    `json:"subject_id" firestore:"subject_id"`
-	TopicId   string    `json:"topic_id" firestore:"topic_id"`
-	Level     string    `json:"level_id" firestore:"level_id"`
-	CreatedAt time.Time `firestore:"created_at,serverTimestamp"`
-	UpdatedAt time.Time `firestore:"updated_at"`
+	ID          string    `json:"id" firestore:"id"`
+	Question    string    `json:"question" firestore:"question"`
+	OptionA     string    `json:"a" firestore:"a"`
+	OptionB     string    `json:"b" firestore:"b"`
+	OptionC     string    `json:"c" firestore:"c"`
+	OptionD     string    `json:"d" firestore:"d"`
+	Answer      string    `json:"answer" firestore:"answer"`
+	Explanation string    `json:"explanation" firestore:"explanation"`
+	SubjectId   string    `json:"subject_id" firestore:"subject_id"`
+	TopicId     string    `json:"topic_id" firestore:"topic_id"`
+	Level       string    `json:"level_id" firestore:"level_id"`
+	CreatedAt   time.Time `firestore:"created_at,serverTimestamp"`
+	UpdatedAt   time.Time `firestore:"updated_at"`
 }
 
 type LearningPath struct {
