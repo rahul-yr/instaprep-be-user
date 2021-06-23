@@ -14,7 +14,7 @@ import (
 var (
 	emailTopicInstance *pubsub.Topic
 	emailSyncOnce sync.Once
-	emailTopicName   = "email-notifications-test-topic"
+	emailTopicName   = "email-notifications-topic"
 )
 
 type EmailEvent struct{
